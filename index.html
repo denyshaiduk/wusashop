@@ -9,7 +9,8 @@
     <meta property="og:title" content="WUSAshop — Вогонь. Сталь. Традиції.">
     <meta property="og:description" content="Преміальний інтернет-магазин мангалів, тандирів, казанів, ножів та аксесуарів ручної роботи. Власне виробництво. Доставка по Україні.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="assets/images/hero-workshop.png">
+    <meta property="og:url" content="https://wusashop.com.ua/">
+    <meta property="og:image" content="https://wusashop.com.ua/assets/images/hero-workshop.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
@@ -23,7 +24,7 @@
         "description": "Преміальні вироби ручної роботи для приготування їжі на вогні.",
         "areaServed": "UA",
         "telephone": "+380670000000",
-        "url": "https://wusashop.ua"
+        "url": "https://wusashop.com.ua/"
       }
     </script>
   </head>
@@ -68,7 +69,7 @@
           <button class="hdr-icon-btn" type="button" aria-label="Обране">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
-          <a class="hdr-cart-btn" href="#cart" aria-label="Кошик">
+          <a class="hdr-cart-btn" href="#catalog" data-open-cart aria-label="Кошик">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             <span class="hdr-cart-count" data-cart-count>0</span>
           </a>
@@ -153,221 +154,267 @@
         </div>
       </section>
 
-      <!-- ====== КАТЕГОРІЇ ====== -->
-      <section class="section" id="categories">
+      <!-- ====== КАТАЛОГ ТОВАРІВ ====== -->
+      <section class="section full-catalog-section" id="categories">
         <div class="container">
           <div class="section-head" data-aos="fade-up">
+            <p class="eyebrow">Повний асортимент</p>
             <h2 class="section-title">Каталог товарів</h2>
-            <p class="section-lead">Всі вироби виготовлені вручну на власному виробництві</p>
+            <p class="section-lead">Власне виробництво · Ручна робота · Доставка по Україні</p>
           </div>
 
-          <div class="cat-grid">
-            <a class="cat-card cat-card--lg" href="#catalog" data-aos="fade-up" data-aos-delay="0">
-              <div class="cat-card__img">
-                <img src="assets/images/hero-workshop.png" alt="Мангали ручної роботи WUSAshop" loading="lazy">
+          <div class="cat-full-grid">
+
+            <!-- Мангали -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="0">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M12 2C12 2 8 7 8 11a4 4 0 0 0 8 0c0-4-4-9-4-9z"/><line x1="4" y1="20" x2="20" y2="20"/><line x1="12" y1="15" x2="12" y2="20"/></svg>
               </div>
-              <div class="cat-card__body">
-                <h3>Мангали</h3>
-                <p>Кована сталь, дерево, надійність</p>
-              </div>
+              <h3 class="cat-full-card__title">Мангали</h3>
+              <ul class="cat-full-card__list">
+                <li>Мангали стаціонарні</li>
+                <li>Мангали валізи</li>
+              </ul>
             </a>
 
-            <a class="cat-card" href="#catalog" data-aos="fade-up" data-aos-delay="80">
-              <div class="cat-card__img">
-                <img src="assets/images/tandoor-terrace.png" alt="Тандири ручної роботи" loading="lazy">
+            <!-- Чохли для мангалів -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="40">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 7h10M7 12h10M7 17h6"/></svg>
               </div>
-              <div class="cat-card__body">
-                <h3>Тандири</h3>
-                <p>Глина, жар, смак</p>
-              </div>
+              <h3 class="cat-full-card__title">Чохли для мангалів</h3>
+              <ul class="cat-full-card__list">
+                <li>Чохли для мангалів</li>
+              </ul>
             </a>
 
-            <a class="cat-card" href="#catalog" data-aos="fade-up" data-aos-delay="160">
-              <div class="cat-card__img">
-                <img src="assets/images/kazan-accessories.png" alt="Казани чавунні" loading="lazy">
+            <!-- Пічки -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="80">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><rect x="2" y="8" width="20" height="13" rx="2"/><path d="M6 8V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/><circle cx="8.5" cy="14.5" r="1.5"/><circle cx="15.5" cy="14.5" r="1.5"/></svg>
               </div>
-              <div class="cat-card__body">
-                <h3>Казани</h3>
-                <p>Чавун, традиція, об'єм</p>
-              </div>
+              <h3 class="cat-full-card__title">Пічки</h3>
+              <ul class="cat-full-card__list">
+                <li>Пічки садові під казан</li>
+              </ul>
             </a>
 
-            <a class="cat-card" href="#catalog" data-aos="fade-up" data-aos-delay="240">
-              <div class="cat-card__img">
-                <img src="assets/images/handmade-knives.png" alt="Ножі ручної роботи" loading="lazy">
+            <!-- Казани чавунні -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="120">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M6 7h12l-1.5 10H7.5L6 7z"/><path d="M4 7h16"/><path d="M9 4h6"/></svg>
               </div>
-              <div class="cat-card__body">
-                <h3>Ножі</h3>
-                <p>Сталь, рукоять, заточка</p>
-              </div>
+              <h3 class="cat-full-card__title">Казани чавунні</h3>
+              <ul class="cat-full-card__list">
+                <li>Казани Узбекистан</li>
+                <li>Казани «Maysternya»</li>
+                <li>Казанки чавунні</li>
+                <li>Казанки чавунні емальовані</li>
+              </ul>
             </a>
 
-            <a class="cat-card" href="#catalog" data-aos="fade-up" data-aos-delay="320">
-              <div class="cat-card__img">
-                <img src="assets/images/workshop-craft.png" alt="Шампури та аксесуари" loading="lazy">
+            <!-- Казани Афганські -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="160">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><ellipse cx="12" cy="9" rx="9" ry="5"/><path d="M3 9v7c0 2.76 4.03 5 9 5s9-2.24 9-5V9"/></svg>
               </div>
-              <div class="cat-card__body">
-                <h3>Шампури</h3>
-                <p>Нержавіюча сталь, ручки</p>
-              </div>
+              <h3 class="cat-full-card__title">Казани Афганські</h3>
+              <ul class="cat-full-card__list">
+                <li>Афганські казани</li>
+              </ul>
             </a>
 
-            <a class="cat-card" href="#catalog" data-aos="fade-up" data-aos-delay="400">
-              <div class="cat-card__img">
-                <img src="assets/images/gift-set.png" alt="Подарункові набори WUSAshop" loading="lazy">
+            <!-- Саджі чавунні -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="200">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M3 12c0 4.97 4.03 9 9 9s9-4.03 9-9"/><path d="M3 12h18"/><path d="M8 12V8M16 12V8"/></svg>
               </div>
-              <div class="cat-card__body">
-                <h3>Подарункові набори</h3>
-                <p>Гравіювання, упаковка, стиль</p>
-              </div>
+              <h3 class="cat-full-card__title">Саджі чавунні</h3>
+              <ul class="cat-full-card__list">
+                <li>Саджі чавунні</li>
+              </ul>
             </a>
+
+            <!-- Садж для подачі -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="240">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M2 15c0 3.31 4.48 6 10 6s10-2.69 10-6"/><ellipse cx="12" cy="15" rx="10" ry="3"/><path d="M12 3v12"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Садж для подачі</h3>
+              <ul class="cat-full-card__list">
+                <li>Саджі для подачі</li>
+              </ul>
+            </a>
+
+            <!-- Сковорідки -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="280">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><circle cx="11" cy="13" r="7"/><path d="M18 13h4"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Сковорідки</h3>
+              <ul class="cat-full-card__list">
+                <li>Сковорідки чавунні</li>
+                <li>Сковорідки з нержавіючої сталі</li>
+              </ul>
+            </a>
+
+            <!-- Шампури -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="320">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><line x1="3" y1="21" x2="21" y2="3"/><circle cx="7" cy="17" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="17" cy="7" r="1.5" fill="currentColor" stroke="none"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Шампури</h3>
+              <ul class="cat-full-card__list">
+                <li>Шампури трьох грані</li>
+                <li>Шампури класичні</li>
+                <li>Шампури художнє лиття</li>
+              </ul>
+            </a>
+
+            <!-- Чохли для шампурів -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="360">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M6 2h12v20l-6-3-6 3V2z"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Чохли для шампурів</h3>
+              <ul class="cat-full-card__list">
+                <li>Чохли зі шкіри</li>
+                <li>Чохли з еко шкіри</li>
+              </ul>
+            </a>
+
+            <!-- Ножі -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="400">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M18.5 2.5L20 4 7 17H4v-3L17 1l1.5 1.5z"/><path d="M4 17l-1 4 4-1"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Ножі</h3>
+              <ul class="cat-full-card__list">
+                <li>Ножі узбецькі пчак</li>
+                <li>Ножі для полювання</li>
+                <li>Ножі кухонні</li>
+                <li>Ножі тактичні</li>
+                <li>Ножі якутські</li>
+              </ul>
+            </a>
+
+            <!-- Сокири -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="440">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M14 4l-4 4 8 8-4 4-8-8 4-4"/><line x1="3" y1="21" x2="9" y2="15"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Сокири</h3>
+              <ul class="cat-full-card__list">
+                <li>Сокири ручної роботи</li>
+              </ul>
+            </a>
+
+            <!-- Дошки -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="480">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="8" y1="5" x2="8" y2="19"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Дошки</h3>
+              <ul class="cat-full-card__list">
+                <li>Колоди</li>
+                <li>Дошки торцеві</li>
+                <li>Дошки для подачі</li>
+              </ul>
+            </a>
+
+            <!-- Узбецькі приладдя -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="520">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M3 17l3-8 3 4 3-6 3 4 3-8"/><line x1="3" y1="20" x2="21" y2="20"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Узбецькі приладдя</h3>
+              <ul class="cat-full-card__list">
+                <li>Узбецькі приладдя</li>
+              </ul>
+            </a>
+
+            <!-- Посуд узбецький -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="560">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M4 8h16"/><path d="M6 8v11a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V8"/><path d="M9 8V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Посуд узбецький</h3>
+              <ul class="cat-full-card__list">
+                <li>Посуд узбецький</li>
+              </ul>
+            </a>
+
+            <!-- Кришки -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="600">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M4 12c0-1.1 3.58-2 8-2s8 .9 8 2"/><path d="M4 12v4c0 1.1 3.58 2 8 2s8-.9 8-2v-4"/><ellipse cx="12" cy="12" rx="8" ry="2"/><line x1="12" y1="7" x2="12" y2="10"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Кришки</h3>
+              <ul class="cat-full-card__list">
+                <li>Кришки скляні</li>
+                <li>Кришки алюмінієві</li>
+              </ul>
+            </a>
+
+            <!-- Кейси подарункові -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="640">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Кейси подарункові</h3>
+              <ul class="cat-full-card__list">
+                <li>Кейс-стіл</li>
+                <li>Кейс художнє лиття</li>
+              </ul>
+            </a>
+
+            <!-- Камінні набори -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="680">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><path d="M3 20h18"/><path d="M5 20V9l7-6 7 6v11"/><path d="M9 20v-6h6v6"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Камінні набори</h3>
+              <ul class="cat-full-card__list">
+                <li>Камінні набори</li>
+              </ul>
+            </a>
+
+            <!-- Паски шкірянні -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="720">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><rect x="2" y="9" width="20" height="6" rx="2"/><circle cx="8" cy="12" r="1.5" fill="currentColor" stroke="none"/><line x1="11" y1="9" x2="11" y2="15"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Паски шкірянні</h3>
+              <ul class="cat-full-card__list">
+                <li>Паски шкірянні</li>
+              </ul>
+            </a>
+
+            <!-- Диски борони -->
+            <a class="cat-full-card" href="#catalog" data-aos="fade-up" data-aos-delay="760">
+              <div class="cat-full-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="3" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="21"/><line x1="3" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="21" y2="12"/></svg>
+              </div>
+              <h3 class="cat-full-card__title">Диски борони</h3>
+              <ul class="cat-full-card__list">
+                <li>Диски борони</li>
+              </ul>
+            </a>
+
           </div>
         </div>
       </section>
 
-      <!-- ====== ХІТИ ПРОДАЖІВ ====== -->
+      <!-- ====== КАТАЛОГ ====== -->
       <section class="section section--dark" id="catalog">
         <div class="container">
           <div class="section-head" data-aos="fade-up">
-            <p class="eyebrow">Хіти продажів</p>
-            <h2 class="section-title">Найпопулярніші вироби</h2>
+            <p class="eyebrow">Каталог WUSAshop</p>
+            <h2 class="section-title">Вироби ручної роботи</h2>
           </div>
 
-          <div class="products-grid">
-
-            <article class="product-card" data-aos="fade-up" data-aos-delay="0">
-              <div class="product-card__badges">
-                <span class="badge badge--hit">Хіт</span>
-              </div>
-              <button class="fav-btn" type="button" aria-label="Додати в обране" data-favorite>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-              <a class="product-card__img-wrap" href="#product">
-                <img src="assets/images/hero-workshop.png" alt="Мангал Black Forge 900 ручної роботи" loading="lazy">
-              </a>
-              <div class="product-card__body">
-                <span class="product-card__cat">Мангали</span>
-                <h3 class="product-card__name"><a href="#product">Black Forge 900</a></h3>
-                <p class="product-card__desc">Кована сталь 4 мм, дерев'яні елементи, індивідуальна комплектація</p>
-                <div class="product-card__meta">
-                  <span class="product-card__craft">Ручна робота</span>
-                  <span class="product-card__time">від 7 днів</span>
-                </div>
-                <div class="product-card__footer">
-                  <div class="product-card__price-block">
-                    <strong class="product-card__price">24 800 грн</strong>
-                    <span class="product-card__status status--in">У наявності</span>
-                  </div>
-                  <div class="product-card__btns">
-                    <a class="btn btn--sm btn--outline" href="#product">Докладніше</a>
-                    <button class="btn btn--sm btn--gold" type="button" data-add-cart aria-label="Додати до кошика">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-card" data-aos="fade-up" data-aos-delay="100">
-              <div class="product-card__badges">
-                <span class="badge badge--new">Новинка</span>
-              </div>
-              <button class="fav-btn" type="button" aria-label="Додати в обране" data-favorite>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-              <a class="product-card__img-wrap" href="#product">
-                <img src="assets/images/tandoor-terrace.png" alt="Тандир Ember Clay Pro" loading="lazy">
-              </a>
-              <div class="product-card__body">
-                <span class="product-card__cat">Тандири</span>
-                <h3 class="product-card__name"><a href="#product">Ember Clay Pro</a></h3>
-                <p class="product-card__desc">Шамотна глина, кована основа, температура до 400°C</p>
-                <div class="product-card__meta">
-                  <span class="product-card__craft">Ручна робота</span>
-                  <span class="product-card__time">від 14 днів</span>
-                </div>
-                <div class="product-card__footer">
-                  <div class="product-card__price-block">
-                    <strong class="product-card__price">19 600 грн</strong>
-                    <span class="product-card__status status--order">Під замовлення</span>
-                  </div>
-                  <div class="product-card__btns">
-                    <a class="btn btn--sm btn--outline" href="#product">Докладніше</a>
-                    <button class="btn btn--sm btn--gold" type="button" data-add-cart aria-label="Додати до кошика">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-card" data-aos="fade-up" data-aos-delay="200">
-              <div class="product-card__badges">
-                <span class="badge badge--sale">−14%</span>
-              </div>
-              <button class="fav-btn" type="button" aria-label="Додати в обране" data-favorite>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-              <a class="product-card__img-wrap" href="#product">
-                <img src="assets/images/kazan-accessories.png" alt="Казан River Iron 12 л чавунний" loading="lazy">
-              </a>
-              <div class="product-card__body">
-                <span class="product-card__cat">Казани</span>
-                <h3 class="product-card__name"><a href="#product">River Iron 12 л</a></h3>
-                <p class="product-card__desc">Чавунний казан для плову, бограча та великих компаній</p>
-                <div class="product-card__meta">
-                  <span class="product-card__craft">Ручна робота</span>
-                  <span class="product-card__time">від 5 днів</span>
-                </div>
-                <div class="product-card__footer">
-                  <div class="product-card__price-block">
-                    <strong class="product-card__price">7 900 грн</strong>
-                    <del class="product-card__old-price">9 200 грн</del>
-                    <span class="product-card__status status--in">У наявності</span>
-                  </div>
-                  <div class="product-card__btns">
-                    <a class="btn btn--sm btn--outline" href="#product">Докладніше</a>
-                    <button class="btn btn--sm btn--gold" type="button" data-add-cart aria-label="Додати до кошика">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-card" data-aos="fade-up" data-aos-delay="300">
-              <div class="product-card__badges">
-                <span class="badge badge--exclusive">Ексклюзив</span>
-              </div>
-              <button class="fav-btn" type="button" aria-label="Додати в обране" data-favorite>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </button>
-              <a class="product-card__img-wrap" href="#product">
-                <img src="assets/images/handmade-knives.png" alt="Ніж Oak Blade ручної роботи" loading="lazy">
-              </a>
-              <div class="product-card__body">
-                <span class="product-card__cat">Ножі</span>
-                <h3 class="product-card__name"><a href="#product">Oak Blade</a></h3>
-                <p class="product-card__desc">Ручна заточка, дубова рукоять, шкіряний чохол</p>
-                <div class="product-card__meta">
-                  <span class="product-card__craft">Ручна робота</span>
-                  <span class="product-card__time">від 10 днів</span>
-                </div>
-                <div class="product-card__footer">
-                  <div class="product-card__price-block">
-                    <strong class="product-card__price">4 800 грн</strong>
-                    <span class="product-card__status status--in">У наявності</span>
-                  </div>
-                  <div class="product-card__btns">
-                    <a class="btn btn--sm btn--outline" href="#product">Докладніше</a>
-                    <button class="btn btn--sm btn--gold" type="button" data-add-cart aria-label="Додати до кошика">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </article>
-
+          <div class="products-grid" data-products-grid>
+            <p class="products-loading" data-products-loading>Завантаження товарів…</p>
           </div>
 
           <div class="section-footer" data-aos="fade-up">
@@ -497,42 +544,6 @@
         </div>
       </section>
 
-      <!-- ====== ФЛАГМАНСЬКИЙ ТОВАР ====== -->
-      <section class="section flagship-section">
-        <div class="container">
-          <div class="flagship-layout">
-            <div class="flagship-img" data-aos="fade-right">
-              <img src="assets/images/hero-workshop.png" alt="Флагманський мангал WUSAshop Black Forge" loading="lazy">
-              <div class="flagship-label" aria-hidden="true">
-                <span>Флагман</span>
-                <strong>2025</strong>
-              </div>
-            </div>
-            <div class="flagship-content" data-aos="fade-left">
-              <p class="eyebrow">Флагманська модель</p>
-              <h2 class="section-title">Мангал, який стане центром вашого подвір'я</h2>
-              <p>Масивна конструкція зі сталі 4 мм, ручне зварювання, натуральні дерев'яні елементи та унікальний дизайн — для сімейних вечорів та справжнього вогню.</p>
-              <ul class="flagship-features">
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Товстостінна сталь 4 мм</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Ручне зварювання без потоку</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Дерев'яні елементи з натурального дуба</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Зручна робоча зона зі столиком</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Можливість нанесення логотипа або імені</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Довговічне термостійке покриття</li>
-              </ul>
-              <div class="flagship-price-row">
-                <strong>24 800 грн</strong>
-                <span>Індивідуальна комплектація</span>
-              </div>
-              <div class="flagship-actions">
-                <a class="btn btn--primary btn--lg" href="#product">Переглянути модель</a>
-                <a class="btn btn--outline btn--lg" href="#contacts">Замовити консультацію</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- ====== ІНДИВІДУАЛЬНЕ ЗАМОВЛЕННЯ ====== -->
       <section class="section section--wood" id="custom-order">
         <div class="container">
@@ -629,47 +640,17 @@
         <div class="container">
           <div class="section-head" data-aos="fade-up">
             <p class="eyebrow">Подарунки</p>
-            <h2 class="section-title">Подарунок, який справді запам'ятається</h2>
-            <p class="section-lead">Ножі, шампури, казани та набори з іменним гравіюванням та преміальною упаковкою</p>
+            <h2 class="section-title">Індивідуальний подарунок</h2>
+            <p class="section-lead">Підберемо виріб, гравіювання та оформлення під вашу подію</p>
           </div>
 
           <div class="gift-grid">
-            <div class="gift-card" data-aos="fade-up" data-aos-delay="0">
-              <div class="gift-card__img">
-                <img src="assets/images/gift-set.png" alt="Подарунковий набір шампурів з гравіюванням" loading="lazy">
-              </div>
-              <div class="gift-card__body">
-                <h3>Набір шампурів</h3>
-                <p>З гравіюванням, у дерев'яній скриньці</p>
-                <span class="gift-price">від 3 800 грн</span>
-              </div>
-            </div>
-            <div class="gift-card" data-aos="fade-up" data-aos-delay="100">
-              <div class="gift-card__img">
-                <img src="assets/images/handmade-knives.png" alt="Ніж з гравіюванням у подарунок" loading="lazy">
-              </div>
-              <div class="gift-card__body">
-                <h3>Ніж з гравіюванням</h3>
-                <p>Дубова рукоять, шкіряний чохол</p>
-                <span class="gift-price">від 4 800 грн</span>
-              </div>
-            </div>
-            <div class="gift-card" data-aos="fade-up" data-aos-delay="200">
-              <div class="gift-card__img">
-                <img src="assets/images/kazan-accessories.png" alt="Преміальний казан у подарунок" loading="lazy">
-              </div>
-              <div class="gift-card__body">
-                <h3>Преміальний казан</h3>
-                <p>Чавун, дубова кришка, подарункова упаковка</p>
-                <span class="gift-price">від 7 900 грн</span>
-              </div>
-            </div>
-            <div class="gift-card gift-card--cta" data-aos="fade-up" data-aos-delay="300">
+            <div class="gift-card gift-card--cta" data-aos="fade-up">
               <div class="gift-cta-inner">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="44" height="44" aria-hidden="true"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-                <h3>Подарунковий сертифікат</h3>
-                <p>Ідеальне рішення, коли не знаєте що обрати</p>
-                <a class="btn btn--primary" href="#custom-order">Замовити сертифікат</a>
+                <h3>Підберемо подарунок</h3>
+                <p>Розкажіть про подію та побажання, а ми запропонуємо варіанти</p>
+                <a class="btn btn--primary" href="#custom-order">Залишити запит</a>
               </div>
             </div>
           </div>
@@ -759,12 +740,12 @@
           <div class="reviews-grid">
             <div class="review-card" data-aos="fade-up" data-aos-delay="0">
               <div class="review-stars" aria-label="Оцінка 5 зірок">★★★★★</div>
-              <p>"Замовив мангал Black Forge для свого будинку. Якість перевершила очікування — зварювання ідеальне, метал масивний, дерев'яні ручки зроблені на совість. Рекомендую всім!"</p>
+              <p>"Замовив виріб для свого будинку. Якість перевершила очікування: зварювання ідеальне, метал масивний, дерев'яні ручки зроблені на совість. Рекомендую!"</p>
               <div class="review-author">
                 <div class="review-avatar" aria-hidden="true">МК</div>
                 <div>
                   <strong>Михайло К.</strong>
-                  <span>Київ · Мангал Black Forge 900</span>
+                  <span>Київ · Покупець WUSAshop</span>
                 </div>
               </div>
             </div>
@@ -982,6 +963,7 @@
           <input type="search" placeholder="Пошук по каталогу..." data-search-input aria-label="Пошук по каталогу" autocomplete="off">
         </div>
         <p class="search-hint">Наприклад: мангал, ніж, казан, шампури, подарунок</p>
+        <div class="search-results" data-search-results aria-live="polite"></div>
       </div>
     </div>
 
@@ -1006,9 +988,135 @@
       </div>
     </div>
 
+    <!-- Кошик -->
+    <div class="modal" data-cart-modal aria-hidden="true" role="dialog" aria-label="Кошик">
+      <div class="modal__overlay" data-close-modal></div>
+      <div class="modal__panel modal__panel--cart">
+        <button class="modal__close" type="button" data-close-modal aria-label="Закрити кошик">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <h3>Кошик</h3>
+        <div class="cart-items" data-cart-items>
+          <p class="cart-empty" data-cart-empty>Ваш кошик порожній</p>
+        </div>
+        <div class="cart-summary" data-cart-summary hidden>
+          <div class="cart-total-row">
+            <span>Разом</span>
+            <strong data-cart-total>0 грн</strong>
+          </div>
+          <button class="btn btn--primary btn--lg" type="button" data-open-checkout>Оформити замовлення</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Оформлення замовлення -->
+    <div class="modal" data-checkout-modal aria-hidden="true" role="dialog" aria-label="Оформлення замовлення">
+      <div class="modal__overlay" data-close-modal></div>
+      <div class="modal__panel modal__panel--checkout">
+        <button class="modal__close" type="button" data-close-modal aria-label="Закрити">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <h3>Оформлення замовлення</h3>
+        <form class="checkout-form" data-checkout-form novalidate>
+          <div class="checkout-section">
+            <p class="checkout-section__title">Контактні дані</p>
+          <div class="form-group">
+            <label for="checkoutName">Ім'я</label>
+            <input type="text" id="checkoutName" name="customerName" placeholder="Ваше ім'я (необов'язково)" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="checkoutPhone">Номер телефону</label>
+            <input type="tel" id="checkoutPhone" name="customerPhone" placeholder="+380 XX XXX XX XX" autocomplete="tel" inputmode="tel" required>
+          </div>
+          </div>
+
+          <div class="checkout-section">
+            <p class="checkout-section__title">Спосіб отримання</p>
+            <div class="checkout-delivery">
+            <label class="delivery-option">
+              <input type="radio" name="deliveryMethod" value="np" data-delivery-np checked>
+              <span>Доставка Новою поштою</span>
+            </label>
+            <label class="delivery-option">
+              <input type="radio" name="deliveryMethod" value="pickup" data-delivery-pickup>
+              <span>Самовивіз (Староконний ринок, Одеса)</span>
+            </label>
+            </div>
+          </div>
+
+          <div class="checkout-section checkout-delivery-details" data-np-fields>
+            <p class="checkout-section__title">Адреса доставки</p>
+          <div class="form-group">
+            <label for="checkoutCity">Місто</label>
+            <input type="text" id="checkoutCity" name="city" placeholder="Почніть вводити назву міста" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="citySuggestions" data-city-input>
+            <div class="checkout-suggest" id="citySuggestions" role="listbox" data-city-suggest hidden></div>
+            <p class="checkout-field-note" data-city-status aria-live="polite">Оберіть місто зі списку</p>
+          </div>
+          <div class="form-group">
+            <label for="checkoutWarehouse">Відділення Нової пошти</label>
+            <select id="checkoutWarehouse" name="warehouse" data-warehouse-select disabled>
+              <option value="">Спочатку виберіть місто</option>
+            </select>
+          </div>
+          </div>
+          <div class="checkout-pickup-info" data-pickup-info hidden>
+            <p>м. Одеса, Староконний ринок. Точний час і місце видачі узгодимо після підтвердження оплати.</p>
+          </div>
+
+          <div class="checkout-section">
+            <p class="checkout-section__title">Оплата</p>
+            <div class="checkout-payment">
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="prepay" checked>
+              <span data-prepay-label>Передоплата переказом на картку</span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="full">
+              <span>Повна оплата переказом на картку</span>
+            </label>
+            </div>
+          </div>
+          <div class="cart-total-row">
+            <span>До сплати</span>
+            <strong data-checkout-total>0 грн</strong>
+          </div>
+          <button class="btn btn--primary btn--lg" type="submit">Підтвердити замовлення</button>
+          <p class="form-error" data-checkout-error aria-live="assertive" hidden></p>
+        </form>
+
+        <!-- Реквізити для переказу (показуються після оформлення) -->
+        <div class="checkout-requisites" data-checkout-requisites hidden>
+          <h4>Замовлення №<span data-req-order-id></span> оформлено!</h4>
+          <p>Переведіть <strong data-req-amount></strong> за реквізитами нижче. У призначенні платежу вкажіть номер замовлення.</p>
+          <dl class="requisites-list">
+            <div><dt>Отримувач</dt><dd data-req-receiver></dd></div>
+            <div><dt>IBAN</dt><dd data-req-iban></dd><button class="req-copy" type="button" data-copy-iban aria-label="Копіювати IBAN">Копіювати</button></div>
+            <div><dt>ІПН/ЄДРПОУ</dt><dd data-req-taxid></dd></div>
+            <div><dt>Банк</dt><dd data-req-bank></dd></div>
+            <div><dt>МФО</dt><dd data-req-mfo></dd></div>
+            <div><dt>ЄДРПОУ банку</dt><dd data-req-bank-edrpou></dd></div>
+          </dl>
+
+          <form class="receipt-form" data-receipt-form novalidate>
+            <p class="receipt-note">Після переказу коштів прикріпіть скріншот або фото чека — це потрібно для підтвердження оплати. Замовлення передається в обробку лише після цього кроку.</p>
+            <div class="form-group">
+              <input type="file" accept="image/*,.pdf" name="receipt" data-receipt-input required>
+            </div>
+            <button class="btn btn--primary btn--lg" type="submit">Я оплатив, надіслати підтвердження</button>
+            <p class="form-error" data-receipt-error hidden></p>
+          </form>
+
+          <div class="receipt-done" data-receipt-done hidden>
+            <p>Дякуємо! Ми перевіримо надходження коштів і зв'яжемося з вами для підтвердження замовлення.</p>
+            <button class="btn btn--outline btn--lg" type="button" data-close-modal>Готово</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Мобільні фіксовані кнопки -->
     <div class="mobile-floating" aria-label="Швидкі дії">
-      <a class="mf-btn mf-btn--cart" href="#cart" aria-label="Кошик">
+      <a class="mf-btn mf-btn--cart" href="#catalog" data-open-cart aria-label="Кошик">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         <span data-cart-count>0</span>
       </a>

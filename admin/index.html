@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WUSAshop — Адмін-панель</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- Екран входу -->
+  <div class="login-screen" id="loginScreen">
+    <form class="login-card" id="loginForm">
+      <h1>WUSAshop <span>Адмін</span></h1>
+      <p class="login-hint">Введіть пароль адміністратора</p>
+      <input type="password" id="loginPassword" placeholder="Пароль" autocomplete="current-password" required>
+      <button type="submit" class="btn">Увійти</button>
+      <p class="login-error" id="loginError" hidden></p>
+    </form>
+  </div>
+
+  <!-- Панель адміністратора -->
+  <div class="admin-app" id="adminApp" hidden>
+    <header class="admin-header">
+      <div class="admin-header__brand">WUSAshop <span>Адмін</span></div>
+      <nav class="admin-tabs">
+        <button class="admin-tab is-active" data-tab="products">Товари</button>
+        <button class="admin-tab" data-tab="orders">Замовлення</button>
+      </nav>
+      <button class="btn btn--ghost" id="logoutBtn">Вийти</button>
+    </header>
+
+    <main class="admin-main">
+      <!-- ==== ТОВАРИ ==== -->
+      <section class="admin-panel is-active" data-panel="products">
+        <div class="admin-panel__head">
+          <h2>Товари</h2>
+          <button class="btn" id="newProductBtn">+ Додати товар</button>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table" id="productsTable">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Назва</th>
+                <th>Категорія</th>
+                <th>Ціна</th>
+                <th>Статус</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ==== ЗАМОВЛЕННЯ ==== -->
+      <section class="admin-panel" data-panel="orders">
+        <div class="admin-panel__head">
+          <h2>Замовлення</h2>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table" id="ordersTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Клієнт</th>
+                <th>Телефон</th>
+                <th>Місто / відділення</th>
+                <th>Сума</th>
+                <th>Оплата</th>
+                <th>Статус</th>
+                <th>Дата</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Модалка редагування товару -->
+  <div class="modal-overlay" id="productModal" hidden>
+    <form class="modal-card" id="productForm">
+      <h3 id="productModalTitle">Новий товар</h3>
+      <input type="hidden" id="productId">
+
+      <label>Назва товару *<input type="text" id="fName" required></label>
+      <label>Категорія<input type="text" id="fCategory" placeholder="Мангали, Ножі, Казани..."></label>
+      <label>Опис<textarea id="fDescription" rows="3"></textarea></label>
+
+      <div class="form-row">
+        <label>Ціна, грн *<input type="number" id="fPrice" min="1" step="1" required></label>
+        <label>Стара ціна, грн<input type="number" id="fOldPrice" min="1" step="1"></label>
+      </div>
+
+      <div class="form-row">
+        <label>Статус
+          <select id="fStatus">
+            <option value="in_stock">У наявності</option>
+            <option value="on_order">Під замовлення</option>
+            <option value="out_of_stock">Немає в наявності</option>
+          </select>
+        </label>
+        <label>Термін виготовлення<input type="text" id="fCraftTime" placeholder="від 7 днів"></label>
+      </div>
+
+      <label>Порядок у каталозі<input type="number" id="fSortOrder" min="0" step="1" value="0"></label>
+
+      <label class="checkbox-row"><input type="checkbox" id="fIsHit"> Показувати в «Хіти продажів»</label>
+
+      <label>Зображення товару<input type="file" id="fImage" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+      <div class="current-image" id="currentImagePreview"></div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn--ghost" id="cancelProductBtn">Скасувати</button>
+        <button type="submit" class="btn">Зберегти</button>
+      </div>
+      <p class="form-error" id="productFormError" hidden></p>
+    </form>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
