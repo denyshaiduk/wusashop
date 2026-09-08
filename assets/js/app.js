@@ -35,9 +35,19 @@ let menuFocusReturn = null;
 let productsById = {};
 let selectedCity  = null; // { ref, name }
 let staticMode = false;
+const apiBaseUrl = String(window.WUSA_API_URL || '').replace(/\/$/, '');
 var CART_KEY = 'wusa_cart';
 var FAVORITES_KEY = 'wusa_favorites';
 var CHECKOUT_DRAFT_KEY = 'wusa_checkout_draft';
+
+function apiUrl(path) {
+  return apiBaseUrl + path;
+}
+
+function productImageUrl(image) {
+  if (!image || /^(https?:)?\/\//i.test(image)) return image;
+  return apiBaseUrl ? apiBaseUrl + '/' + image.replace(/^\//, '') : image;
+}
 
 function readStorage(key, fallback) {
   try {
@@ -219,7 +229,7 @@ function productCardHTML(p, i) {
   if (p.isHit) badge = '<span class="badge badge--hit">Хіт</span>';
   else if (p.oldPrice) badge = '<span class="badge badge--sale">Знижка</span>';
   var oldPriceHtml = p.oldPrice ? '<del class="product-card__old-price">' + formatPrice(p.oldPrice) + '</del>' : '';
-  var imgSrc = p.image || 'assets/images/hero-workshop.png';
+  var imgSrc = productImageUrl(p.image) || 'assets/images/hero-workshop.png';
   return (
     '<article class="product-card" data-product-id="' + p.id + '">' +
       '<div class="product-card__badges">' + badge + '</div>' +
@@ -275,7 +285,7 @@ function renderSearchResults(query) {
 
 function loadProducts() {
   if (!productsGrid) return;
-  fetch('/api/products')
+  fetch(apiUrl('/api/products'))
     .then(function(res) { if (!res.ok) throw new Error('API unavailable'); return res.json(); })
     .catch(function() {
       staticMode = true;
@@ -366,7 +376,7 @@ function renderCartModal() {
     if (!p) return '';
     return (
       '<div class="cart-item" data-cart-item="' + it.id + '">' +
-        '<img class="cart-item__img" src="' + (p.image || 'assets/images/hero-workshop.png') + '" alt="' + escapeHtml(p.name) + '">' +
+        '<img class="cart-item__img" src="' + (productImageUrl(p.image) || 'assets/images/hero-workshop.png') + '" alt="' + escapeHtml(p.name) + '">' +
         '<div class="cart-item__body">' +
           '<span class="cart-item__name">' + escapeHtml(p.name) + '</span>' +
           '<span class="cart-item__unit-price">' + formatPrice(p.price) + ' за шт.</span>' +
@@ -475,7 +485,7 @@ function restoreCheckoutDraft() {
   if (cityInput) cityInput.value = selectedCity ? selectedCity.name : (draft.city || '');
   if (selectedCity && warehouseSelect) {
     warehouseSelect.innerHTML = '<option value="">Завантаження відділень...</option>';
-    fetch('/api/novaposhta/warehouses?cityRef=' + encodeURIComponent(selectedCity.ref))
+    fetch(apiUrl('/api/novaposhta/warehouses?cityRef=' + encodeURIComponent(selectedCity.ref)))
       .then(function(res) { if (!res.ok) throw new Error('Warehouse search failed'); return res.json(); })
       .then(function(list) {
         warehouseSelect.innerHTML = '<option value="">Оберіть відділення</option>' + list.map(function(warehouse) {
@@ -517,7 +527,7 @@ if (cityInput) {
     }
     setCityStatus('Шукаємо місто...', 'loading');
     cityDebounce = setTimeout(function() {
-      fetch('/api/novaposhta/cities?q=' + encodeURIComponent(q))
+      fetch(apiUrl('/api/novaposhta/cities?q=' + encodeURIComponent(q)))
         .then(function(res) { if (!res.ok) throw new Error('City search failed'); return res.json(); })
         .then(function(cities) {
           if (searchVersion !== citySearchVersion) return;
@@ -552,7 +562,7 @@ if (cityInput) {
     resetWarehouse('Завантаження відділень...');
     setCityStatus('Місто вибрано', 'success');
     saveCheckoutDraft();
-    fetch('/api/novaposhta/warehouses?cityRef=' + encodeURIComponent(selectedCity.ref))
+    fetch(apiUrl('/api/novaposhta/warehouses?cityRef=' + encodeURIComponent(selectedCity.ref)))
       .then(function(res) { if (!res.ok) throw new Error('Warehouse search failed'); return res.json(); })
       .then(function(list) {
         if (!Array.isArray(list) || !list.length) {
@@ -610,7 +620,7 @@ if (checkoutForm) {
 /* ---- Checkout: payment requisites ------------------------- */
 var paymentRequisites = null;
 var pendingOrderId = null;
-fetch('/api/payment-requisites')
+fetch(apiUrl('/api/payment-requisites'))
   .then(function(res) { return res.ok ? res.json() : null; })
   .then(function(data) {
     if (!data) return;
@@ -657,7 +667,7 @@ if (receiptForm) {
     var fd = new FormData();
     fd.append('receipt', fileInput.files[0]);
 
-    fetch('/api/orders/' + pendingOrderId + '/confirm-payment', { method: 'POST', body: fd })
+    fetch(apiUrl('/api/orders/' + pendingOrderId + '/confirm-payment'), { method: 'POST', body: fd })
       .then(function(res) { return res.json().then(function(body) { if (!res.ok) throw new Error(body.error); return body; }); })
       .then(function() {
         receiptForm.hidden = true;
@@ -738,7 +748,7 @@ if (checkoutForm) {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Обробка...';
 
-    fetch('/api/orders', {
+    fetch(apiUrl('/api/orders'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),

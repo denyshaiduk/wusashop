@@ -2,6 +2,14 @@
 
 require('dotenv').config();
 
+if (process.env.NODE_ENV === 'production') {
+  const unsafeSecrets = new Set(['', 'change-me', 'change-me-too', 'admin123', 'local-dev-secret-please-change']);
+  const invalid = ['ADMIN_PASSWORD', 'SESSION_SECRET'].filter((key) => unsafeSecrets.has(process.env[key] || ''));
+  if (invalid.length) {
+    throw new Error(`Production secrets must be changed: ${invalid.join(', ')}`);
+  }
+}
+
 const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -13,6 +21,26 @@ const novaPoshtaRoutes = require('./routes/novaposhta');
 
 const app = express();
 const root = path.join(__dirname, '..');
+
+const allowedOrigins = new Set([
+  'https://wusashop.com.ua',
+  'https://www.wusashop.com.ua',
+  'https://api.wusashop.com.ua',
+  process.env.ADMIN_ORIGIN,
+].filter(Boolean));
+
+app.use((req, res, next) => {
+  const origin = req.get('Origin');
+  if (origin && allowedOrigins.has(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  }
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
