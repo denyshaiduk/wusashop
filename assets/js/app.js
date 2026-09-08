@@ -222,6 +222,18 @@ var STATUS_CLASS  = { in_stock: 'status--in', on_order: 'status--order', out_of_
 
 function formatPrice(n) { return Number(n).toLocaleString('uk-UA') + ' грн'; }
 
+function catalogStateHTML(title, subtitle) {
+  return (
+    '<div class="products-loading">' +
+      '<span class="products-loading__icon" aria-hidden="true">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26"><path d="M12 2.5c1.2 3.1-3 4.3-3 8.3a3 3 0 0 0 6 0c0-1.6-1-2.3-1-3.8 2.1 1.1 3.5 3.6 3.5 6.3a5.5 5.5 0 1 1-11 0c0-4.3 3.4-6.6 5.5-10.8z"/></svg>' +
+      '</span>' +
+      '<p class="products-loading__title">' + escapeHtml(title) + '</p>' +
+      (subtitle ? '<p class="products-loading__text">' + escapeHtml(subtitle) + '</p>' : '') +
+    '</div>'
+  );
+}
+
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, function(c) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -289,7 +301,9 @@ function renderCatalog() {
   }
   productsGrid.innerHTML = visibleProducts.length
     ? visibleProducts.map(productCardHTML).join('')
-    : '<p class="products-loading">' + (catalogProducts.length ? 'У цій категорії поки немає виробів' : 'Товари ще не додані') + '</p>';
+    : catalogProducts.length
+      ? catalogStateHTML('У цій категорії поки немає виробів', 'Оберіть іншу категорію або перегляньте весь каталог')
+      : catalogStateHTML('Товари ще не додані', 'Каталог наповнюється — зазирніть трохи згодом');
 }
 
 function renderSearchResults(query) {
@@ -330,7 +344,7 @@ function loadProducts() {
       if (searchInput) renderSearchResults(searchInput.value);
     })
     .catch(function() {
-      productsGrid.innerHTML = '<p class="products-loading">Не вдалося завантажити товари</p>';
+      productsGrid.innerHTML = catalogStateHTML('Не вдалося завантажити товари', 'Оновіть сторінку або спробуйте пізніше');
     });
 }
 loadProducts();
