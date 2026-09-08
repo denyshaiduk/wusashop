@@ -27,6 +27,8 @@ const checkoutForm   = document.querySelector('[data-checkout-form]');
 const aosElements    = document.querySelectorAll('[data-aos]');
 const searchInput    = document.querySelector('[data-search-input]');
 const searchResults  = document.querySelector('[data-search-results]');
+const catalogFilters = document.querySelector('[data-catalog-filters]');
+const catalogCount   = document.querySelector('[data-catalog-count]');
 
 /* ---- State ----------------------------------------------- */
 let cartCount  = 0;
@@ -35,6 +37,8 @@ let menuFocusReturn = null;
 let productsById = {};
 let selectedCity  = null; // { ref, name }
 let staticMode = false;
+let catalogProducts = [];
+let activeCategory = 'all';
 const apiBaseUrl = String(window.WUSA_API_URL || '').replace(/\/$/, '');
 var CART_KEY = 'wusa_cart';
 var FAVORITES_KEY = 'wusa_favorites';
@@ -265,6 +269,29 @@ function productCardHTML(p, i) {
   );
 }
 
+function renderCatalog() {
+  var categories = Array.from(new Set(catalogProducts.map(function(product) { return product.category.trim(); }).filter(Boolean))).sort();
+  if (activeCategory !== 'all' && !categories.includes(activeCategory)) activeCategory = 'all';
+  var visibleProducts = activeCategory === 'all'
+    ? catalogProducts
+    : catalogProducts.filter(function(product) { return product.category === activeCategory; });
+
+  if (catalogFilters) {
+    catalogFilters.innerHTML = ['all'].concat(categories).map(function(category) {
+      var label = category === 'all' ? 'Усі вироби' : category;
+      return '<button type="button" class="catalog-filter' + (activeCategory === category ? ' is-active' : '') + '" data-catalog-category="' + escapeHtml(category) + '">' + escapeHtml(label) + '</button>';
+    }).join('');
+  }
+  if (catalogCount) {
+    catalogCount.textContent = catalogProducts.length
+      ? 'Знайдено: ' + visibleProducts.length + ' з ' + catalogProducts.length
+      : 'Каталог оновлюється';
+  }
+  productsGrid.innerHTML = visibleProducts.length
+    ? visibleProducts.map(productCardHTML).join('')
+    : '<p class="products-loading">' + (catalogProducts.length ? 'У цій категорії поки немає виробів' : 'Товари ще не додані') + '</p>';
+}
+
 function renderSearchResults(query) {
   if (!searchResults) return;
   var term = String(query || '').trim().toLocaleLowerCase('uk-UA');
@@ -297,9 +324,8 @@ function loadProducts() {
     .then(function(products) {
       productsById = {};
       products.forEach(function(p) { productsById[p.id] = p; });
-      productsGrid.innerHTML = products.length
-        ? products.map(productCardHTML).join('')
-        : '<p class="products-loading">Товари ще не додані</p>';
+      catalogProducts = products;
+      renderCatalog();
       renderCartModal();
       if (searchInput) renderSearchResults(searchInput.value);
     })
@@ -308,6 +334,15 @@ function loadProducts() {
     });
 }
 loadProducts();
+
+if (catalogFilters) {
+  catalogFilters.addEventListener('click', function(e) {
+    var filter = e.target.closest('[data-catalog-category]');
+    if (!filter) return;
+    activeCategory = filter.dataset.catalogCategory;
+    renderCatalog();
+  });
+}
 
 if (searchInput) {
   searchInput.addEventListener('input', function() { renderSearchResults(searchInput.value); });
@@ -843,7 +878,7 @@ if (prefersReduced) {
   var ctx = sparksCanvas.getContext('2d');
   var W = 0, H = 0, animId = null;
   var COLORS = ['#f0c060','#e8a020','#c8930a','#ff8020','#ffd060'];
-  var COUNT   = 55;
+  var COUNT = window.matchMedia('(max-width: 700px)').matches || navigator.hardwareConcurrency <= 4 ? 20 : 40;
   var particles = [];
 
   function Spark(initial) {
