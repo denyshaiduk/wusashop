@@ -19,6 +19,7 @@ db.exec(`
     price        INTEGER NOT NULL,       -- ціна в копійках/грн (цілі гривні)
     old_price    INTEGER,
     image        TEXT NOT NULL DEFAULT '',
+    images       TEXT NOT NULL DEFAULT '[]', -- JSON-масив шляхів до додаткових фото товару
     status       TEXT NOT NULL DEFAULT 'in_stock', -- in_stock | on_order | out_of_stock
     craft_time   TEXT NOT NULL DEFAULT '',
     is_hit       INTEGER NOT NULL DEFAULT 0,
@@ -46,5 +47,7 @@ db.exec(`
 // М'яка міграція для БД, створених до появи поля prepay_amount
 try { db.exec('ALTER TABLE orders ADD COLUMN prepay_amount INTEGER'); } catch { /* уже існує */ }
 try { db.exec('ALTER TABLE orders ADD COLUMN receipt_path TEXT'); } catch { /* уже існує */ }
+// М'яка міграція для БД, створених до появи галереї фото (кілька фото на товар)
+try { db.exec("ALTER TABLE products ADD COLUMN images TEXT NOT NULL DEFAULT '[]'"); } catch { /* уже існує */ }
 
 module.exports = db;

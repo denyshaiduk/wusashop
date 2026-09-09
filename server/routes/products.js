@@ -30,6 +30,9 @@ const upload = multer({
 });
 
 function serializeProduct(row) {
+  let images = [];
+  try { images = JSON.parse(row.images || '[]'); } catch { images = []; }
+  if (!Array.isArray(images) || !images.length) images = row.image ? [row.image] : [];
   return {
     id: row.id,
     name: row.name,
@@ -38,6 +41,7 @@ function serializeProduct(row) {
     price: row.price,
     oldPrice: row.old_price,
     image: row.image,
+    images,
     status: row.status,
     craftTime: row.craft_time,
     isHit: !!row.is_hit,
@@ -63,18 +67,20 @@ router.get('/api/admin/products', requireAdmin, (req, res) => {
   res.json(rows.map(serializeProduct));
 });
 
-router.post('/api/admin/products', requireAdmin, upload.single('image'), (req, res) => {
+router.post('/api/admin/products', requireAdmin, upload.array('images', 6), (req, res) => {
   const b = req.body;
   const name = (b.name || '').trim();
   const price = Number(b.price);
   if (!name || !Number.isFinite(price) || price <= 0) {
     return res.status(400).json({ error: "Вкажіть назву та коректну ціну товару" });
   }
-  const image = req.file ? `assets/images/products/${req.file.filename}` : (b.imageUrl || '');
+  const uploaded = (req.files || []).map((f) => `assets/images/products/${f.filename}`);
+  const images = uploaded.length ? uploaded : (b.imageUrl ? [b.imageUrl] : []);
+  const image = images[0] || '';
   const oldPrice = b.oldPrice ? Number(b.oldPrice) : null;
   const info = db.prepare(`
-    INSERT INTO products (name, category, description, price, old_price, image, status, craft_time, is_hit, sort_order)
-    VALUES (@name, @category, @description, @price, @old_price, @image, @status, @craft_time, @is_hit, @sort_order)
+    INSERT INTO products (name, category, description, price, old_price, image, images, status, craft_time, is_hit, sort_order)
+    VALUES (@name, @category, @description, @price, @old_price, @image, @images, @status, @craft_time, @is_hit, @sort_order)
   `).run({
     name,
     category: (b.category || '').trim(),
@@ -82,6 +88,7 @@ router.post('/api/admin/products', requireAdmin, upload.single('image'), (req, r
     price,
     old_price: oldPrice,
     image,
+    images: JSON.stringify(images),
     status: b.status || 'in_stock',
     craft_time: (b.craftTime || '').trim(),
     is_hit: b.isHit === 'true' || b.isHit === '1' || b.isHit === true ? 1 : 0,
@@ -91,7 +98,7 @@ router.post('/api/admin/products', requireAdmin, upload.single('image'), (req, r
   res.status(201).json(serializeProduct(row));
 });
 
-router.put('/api/admin/products/:id', requireAdmin, upload.single('image'), (req, res) => {
+router.put('/api/admin/products/:id', requireAdmin, upload.array('images', 6), (req, res) => {
   const existing = db.prepare('SELECT * FROM products WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Товар не знайдено' });
   const b = req.body;
@@ -99,19 +106,33 @@ router.put('/api/admin/products/:id', requireAdmin, upload.single('image'), (req
   if (!Number.isFinite(price) || price <= 0) {
     return res.status(400).json({ error: 'Некоректна ціна' });
   }
-  let image = existing.image;
-  if (req.file) {
-    image = `assets/images/products/${req.file.filename}`;
-    if (existing.image && existing.image.startsWith('assets/images/products/')) {
-      const oldPath = path.join(__dirname, '..', '..', existing.image);
-      fs.unlink(oldPath, () => {});
-    }
-  } else if (b.imageUrl !== undefined) {
-    image = b.imageUrl;
+  let existingImages = [];
+  try { existingImages = JSON.parse(existing.images || '[]'); } catch { existingImages = []; }
+  if (!existingImages.length && existing.image) existingImages = [existing.image];
+
+  // keepImages — JSON-масив шляхів наявних фото, які треба залишити (і в якому порядку)
+  let keptImages = existingImages;
+  if (b.keepImages !== undefined) {
+    try {
+      const kept = JSON.parse(b.keepImages);
+      keptImages = Array.isArray(kept) ? kept.filter((p) => existingImages.includes(p)) : existingImages;
+    } catch { keptImages = existingImages; }
   }
+  const removedImages = existingImages.filter((p) => !keptImages.includes(p));
+  removedImages.forEach((p) => {
+    if (p && p.startsWith('assets/images/products/')) {
+      fs.unlink(path.join(__dirname, '..', '..', p), () => {});
+    }
+  });
+
+  const uploaded = (req.files || []).map((f) => `assets/images/products/${f.filename}`);
+  let images = keptImages.concat(uploaded);
+  if (!images.length && b.imageUrl !== undefined && b.imageUrl) images = [b.imageUrl];
+  const image = images[0] || '';
+
   db.prepare(`
     UPDATE products SET name=@name, category=@category, description=@description, price=@price,
-      old_price=@old_price, image=@image, status=@status, craft_time=@craft_time, is_hit=@is_hit, sort_order=@sort_order
+      old_price=@old_price, image=@image, images=@images, status=@status, craft_time=@craft_time, is_hit=@is_hit, sort_order=@sort_order
     WHERE id=@id
   `).run({
     id: req.params.id,
@@ -121,6 +142,7 @@ router.put('/api/admin/products/:id', requireAdmin, upload.single('image'), (req
     price,
     old_price: b.oldPrice !== undefined ? (b.oldPrice ? Number(b.oldPrice) : null) : existing.old_price,
     image,
+    images: JSON.stringify(images),
     status: b.status ?? existing.status,
     craft_time: (b.craftTime ?? existing.craft_time).trim(),
     is_hit: b.isHit !== undefined ? (b.isHit === 'true' || b.isHit === '1' || b.isHit === true ? 1 : 0) : existing.is_hit,
@@ -134,9 +156,14 @@ router.delete('/api/admin/products/:id', requireAdmin, (req, res) => {
   const existing = db.prepare('SELECT * FROM products WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Товар не знайдено' });
   db.prepare('DELETE FROM products WHERE id = ?').run(req.params.id);
-  if (existing.image && existing.image.startsWith('assets/images/products/')) {
-    fs.unlink(path.join(__dirname, '..', '..', existing.image), () => {});
-  }
+  let images = [];
+  try { images = JSON.parse(existing.images || '[]'); } catch { images = []; }
+  if (!images.length && existing.image) images = [existing.image];
+  images.forEach((p) => {
+    if (p && p.startsWith('assets/images/products/')) {
+      fs.unlink(path.join(__dirname, '..', '..', p), () => {});
+    }
+  });
   res.status(204).end();
 });
 

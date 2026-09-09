@@ -245,16 +245,32 @@ function productCardHTML(p, i) {
   if (p.isHit) badge = '<span class="badge badge--hit">Хіт</span>';
   else if (p.oldPrice) badge = '<span class="badge badge--sale">Знижка</span>';
   var oldPriceHtml = p.oldPrice ? '<del class="product-card__old-price">' + formatPrice(p.oldPrice) + '</del>' : '';
-  var imgSrc = productImageUrl(p.image) || 'assets/images/hero-workshop.png';
+  var images = (Array.isArray(p.images) && p.images.length) ? p.images : [p.image];
+  images = images.filter(Boolean);
+  if (!images.length) images = ['assets/images/hero-workshop.png'];
+  var galleryNav = images.length > 1 ? (
+    '<button type="button" class="product-card__nav product-card__nav--prev" data-gallery-prev aria-label="Попереднє фото">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="14" height="14" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>' +
+    '</button>' +
+    '<button type="button" class="product-card__nav product-card__nav--next" data-gallery-next aria-label="Наступне фото">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="14" height="14" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>' +
+    '</button>' +
+    '<div class="product-card__dots" data-gallery-dots>' +
+      images.map(function(_, idx) { return '<span class="' + (idx === 0 ? 'is-active' : '') + '" data-gallery-dot="' + idx + '"></span>'; }).join('') +
+    '</div>'
+  ) : '';
   return (
     '<article class="product-card" data-product-id="' + p.id + '">' +
       '<div class="product-card__badges">' + badge + '</div>' +
       '<button class="fav-btn' + (getFavorites().includes(p.id) ? ' is-active' : '') + '" type="button" aria-label="' + (getFavorites().includes(p.id) ? 'Видалити з обраного' : 'Додати в обране') + '" data-favorite>' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' +
       '</button>' +
-      '<a class="product-card__img-wrap" href="#custom-order">' +
-        '<img src="' + imgSrc + '" alt="' + escapeHtml(p.name) + '" loading="lazy">' +
-      '</a>' +
+      '<div class="product-card__img-wrap" data-gallery data-images=\'' + JSON.stringify(images.map(productImageUrl)).replace(/'/g, '&#39;') + '\' data-index="0">' +
+        '<a href="#custom-order" tabindex="-1">' +
+          '<img src="' + productImageUrl(images[0]) + '" alt="' + escapeHtml(p.name) + '" data-gallery-img loading="lazy">' +
+        '</a>' +
+        galleryNav +
+      '</div>' +
       '<div class="product-card__body">' +
         '<span class="product-card__cat">' + escapeHtml(p.category || '') + '</span>' +
         '<h3 class="product-card__name"><a href="#custom-order">' + escapeHtml(p.name) + '</a></h3>' +
@@ -480,6 +496,14 @@ document.addEventListener('click', function(e) {
     }
     return;
   }
+  var galleryNavBtn = e.target.closest('[data-gallery-prev],[data-gallery-next]');
+  var galleryDot = e.target.closest('[data-gallery-dot]');
+  if (galleryNavBtn || galleryDot) {
+    e.preventDefault();
+    var wrap = e.target.closest('[data-gallery]');
+    if (wrap) setGalleryIndex(wrap, galleryDot, galleryNavBtn && galleryNavBtn.matches('[data-gallery-next]'));
+    return;
+  }
   var qtyMinus = e.target.closest('[data-qty-minus]');
   var qtyPlus  = e.target.closest('[data-qty-plus]');
   var removeBtn = e.target.closest('[data-cart-remove]');
@@ -497,6 +521,22 @@ saveCart(getCart());
 
 function getFavorites() {
   return readStorage(FAVORITES_KEY, []).map(Number).filter(Number.isFinite);
+}
+
+function setGalleryIndex(wrap, dotEl, goNext) {
+  var images;
+  try { images = JSON.parse(wrap.dataset.images || '[]'); } catch { images = []; }
+  if (!images.length) return;
+  var current = Number(wrap.dataset.index || 0);
+  var next;
+  if (dotEl) next = Number(dotEl.dataset.galleryDot);
+  else next = goNext ? (current + 1) % images.length : (current - 1 + images.length) % images.length;
+  wrap.dataset.index = next;
+  var img = wrap.querySelector('[data-gallery-img]');
+  if (img) img.src = images[next];
+  wrap.querySelectorAll('[data-gallery-dot]').forEach(function(dot) {
+    dot.classList.toggle('is-active', Number(dot.dataset.galleryDot) === next);
+  });
 }
 
 /* ---- Checkout: Nova Poshta city/warehouse ----------------- */

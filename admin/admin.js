@@ -125,10 +125,44 @@ function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
+let keptProductImages = [];
+
+function renderCurrentImagePreview() {
+  const el = document.getElementById('currentImagePreview');
+  el.innerHTML = keptProductImages.map((src, idx) => `
+    <div class="current-image__item" data-kept-index="${idx}">
+      <img src="/${src}" alt="">
+      <div class="current-image__order">
+        <button type="button" data-move-image="${idx}" data-direction="-1" aria-label="Перемістити фото ліворуч" ${idx === 0 ? 'disabled' : ''}>&larr;</button>
+        <button type="button" data-move-image="${idx}" data-direction="1" aria-label="Перемістити фото праворуч" ${idx === keptProductImages.length - 1 ? 'disabled' : ''}>&rarr;</button>
+      </div>
+      <button type="button" class="current-image__remove" data-remove-image="${idx}" aria-label="Прибрати фото">×</button>
+    </div>
+  `).join('');
+  el.querySelectorAll('[data-move-image]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const index = Number(btn.dataset.moveImage);
+      const targetIndex = index + Number(btn.dataset.direction);
+      const [image] = keptProductImages.splice(index, 1);
+      keptProductImages.splice(targetIndex, 0, image);
+      renderCurrentImagePreview();
+    });
+  });
+  el.querySelectorAll('[data-remove-image]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      keptProductImages.splice(Number(btn.dataset.removeImage), 1);
+      renderCurrentImagePreview();
+    });
+  });
+}
+
 function openProductModal(product) {
   productFormError.hidden = true;
   productForm.reset();
-  document.getElementById('currentImagePreview').innerHTML = '';
+  keptProductImages = product && Array.isArray(product.images) && product.images.length
+    ? product.images.slice()
+    : (product && product.image ? [product.image] : []);
+  renderCurrentImagePreview();
   if (product) {
     document.getElementById('productModalTitle').textContent = 'Редагувати товар';
     document.getElementById('productId').value = product.id;
@@ -141,9 +175,6 @@ function openProductModal(product) {
     document.getElementById('fCraftTime').value = product.craftTime || '';
     document.getElementById('fSortOrder').value = product.sortOrder || 0;
     document.getElementById('fIsHit').checked = product.isHit;
-    if (product.image) {
-      document.getElementById('currentImagePreview').innerHTML = `<img src="/${product.image}" alt="">`;
-    }
   } else {
     document.getElementById('productModalTitle').textContent = 'Новий товар';
     document.getElementById('productId').value = '';
@@ -172,8 +203,9 @@ productForm.addEventListener('submit', async (e) => {
   fd.append('craftTime', document.getElementById('fCraftTime').value.trim());
   fd.append('sortOrder', document.getElementById('fSortOrder').value);
   fd.append('isHit', document.getElementById('fIsHit').checked ? '1' : '0');
-  const file = document.getElementById('fImage').files[0];
-  if (file) fd.append('image', file);
+  if (id) fd.append('keepImages', JSON.stringify(keptProductImages));
+  const files = document.getElementById('fImage').files;
+  for (const file of files) fd.append('images', file);
 
   try {
     await api(id ? `/api/admin/products/${id}` : '/api/admin/products', {
