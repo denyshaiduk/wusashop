@@ -267,9 +267,7 @@ function productCardHTML(p, i) {
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' +
       '</button>' +
       '<div class="product-card__img-wrap" data-gallery data-images=\'' + JSON.stringify(images.map(productImageUrl)).replace(/'/g, '&#39;') + '\' data-index="0">' +
-        '<a href="#custom-order" tabindex="-1">' +
-          '<img src="' + productImageUrl(images[0]) + '" alt="' + escapeHtml(p.name) + '" data-gallery-img loading="lazy">' +
-        '</a>' +
+        '<img src="' + productImageUrl(images[0]) + '" alt="' + escapeHtml(p.name) + '" data-gallery-img loading="lazy">' +
         galleryNav +
       '</div>' +
       '<div class="product-card__body">' +

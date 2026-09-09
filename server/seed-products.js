@@ -66,7 +66,10 @@ const FILES = [
 
 // slice(from, to) — 1-based, включно, згідно з порядком файлів у папці
 function slice(from, to) {
-  return FILES.slice(from - 1, to).map((f) => `assets/images/products/${f}`);
+  return FILES.slice(from - 1, to).map((f) => {
+    const name = f.slice(0, f.lastIndexOf('.'));
+    return `assets/images/products/optimized/${name}.webp`;
+  });
 }
 
 const PRODUCTS = [

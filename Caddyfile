@@ -1,4 +1,13 @@
 api.wusashop.com.ua {
   encode zstd gzip
+  @productImages path /assets/images/products/*
+  header @productImages Cache-Control "public, max-age=31536000, immutable"
+  reverse_proxy app:3000
+}
+
+wusashop.com.ua, www.wusashop.com.ua {
+  encode zstd gzip
+  @productImages path /assets/images/products/*
+  header @productImages Cache-Control "public, max-age=31536000, immutable"
   reverse_proxy app:3000
 }
