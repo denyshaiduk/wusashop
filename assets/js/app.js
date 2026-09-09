@@ -29,6 +29,7 @@ const searchInput    = document.querySelector('[data-search-input]');
 const searchResults  = document.querySelector('[data-search-results]');
 const catalogFilters = document.querySelector('[data-catalog-filters]');
 const catalogCount   = document.querySelector('[data-catalog-count]');
+const categoryGrid   = document.querySelector('[data-category-grid]');
 
 /* ---- State ----------------------------------------------- */
 let cartCount  = 0;
@@ -297,6 +298,29 @@ function productCardHTML(p, i) {
   );
 }
 
+function renderCategoryGrid() {
+  if (!categoryGrid) return;
+  var categories = Array.from(new Set(catalogProducts.map(function(product) {
+    return product.category.trim();
+  }).filter(Boolean))).sort();
+  categoryGrid.innerHTML = categories.map(function(category) {
+    var products = catalogProducts.filter(function(product) { return product.category === category; });
+    var feature = products[0];
+    var image = productImageUrl(feature.image) || 'assets/images/hero-workshop.png';
+    var productCount = products.length + (products.length === 1 ? ' виріб' : ' виробів');
+    return (
+      '<a class="cat-full-card cat-full-card--photo" href="#catalog" data-category-link="' + escapeHtml(category) + '">' +
+        '<img class="cat-full-card__photo" src="' + image + '" alt="' + escapeHtml(category) + '" loading="lazy">' +
+        '<span class="cat-full-card__shade"></span>' +
+        '<span class="cat-full-card__content">' +
+          '<span class="cat-full-card__title">' + escapeHtml(category) + '</span>' +
+          '<span class="cat-full-card__count">' + productCount + '</span>' +
+        '</span>' +
+      '</a>'
+    );
+  }).join('');
+}
+
 function renderCatalog() {
   var categories = Array.from(new Set(catalogProducts.map(function(product) { return product.category.trim(); }).filter(Boolean))).sort();
   if (activeCategory !== 'all' && !categories.includes(activeCategory)) activeCategory = 'all';
@@ -355,6 +379,7 @@ function loadProducts() {
       productsById = {};
       products.forEach(function(p) { productsById[p.id] = p; });
       catalogProducts = products;
+      renderCategoryGrid();
       renderCatalog();
       renderCartModal();
       if (searchInput) renderSearchResults(searchInput.value);
@@ -371,6 +396,18 @@ if (catalogFilters) {
     if (!filter) return;
     activeCategory = filter.dataset.catalogCategory;
     renderCatalog();
+  });
+}
+
+if (categoryGrid) {
+  categoryGrid.addEventListener('click', function(e) {
+    var link = e.target.closest('[data-category-link]');
+    if (!link) return;
+    e.preventDefault();
+    activeCategory = link.dataset.categoryLink;
+    renderCatalog();
+    var catalog = document.getElementById('catalog');
+    if (catalog) catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 }
 
