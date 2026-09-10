@@ -12,6 +12,8 @@ const { sendTelegramMessage, sendTelegramPhoto, sendTelegramMediaGroup } = requi
 const receiptDir = path.join(__dirname, '..', '..', 'data', 'receipts');
 if (!fs.existsSync(receiptDir)) fs.mkdirSync(receiptDir, { recursive: true });
 const RECEIPT_ALLOWED_EXT = new Set(['.jpg', '.jpeg', '.png', '.webp', '.heic', '.pdf']);
+const ORDER_STATUSES = new Set(['new', 'processing', 'shipped', 'done', 'cancelled']);
+const PAYMENT_STATUSES = new Set(['pending', 'paid', 'failed']);
 const receiptUpload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => cb(null, receiptDir),
@@ -47,6 +49,9 @@ function normalizeUkrainianPhone(value) {
 }
 
 function serializeOrder(row) {
+  let items = [];
+  try { items = JSON.parse(row.items_json || '[]'); } catch { items = []; }
+  if (!Array.isArray(items)) items = [];
   return {
     id: row.id,
     customerName: row.customer_name,
@@ -59,7 +64,7 @@ function serializeOrder(row) {
     total: row.total,
     prepayAmount: row.prepay_amount,
     hasReceipt: !!row.receipt_path,
-    items: JSON.parse(row.items_json || '[]'),
+    items,
     createdAt: row.created_at,
   };
 }
@@ -251,9 +256,15 @@ router.get('/api/admin/orders', requireAdmin, (req, res) => {
 });
 
 router.put('/api/admin/orders/:id', requireAdmin, (req, res) => {
+  const { orderStatus, paymentStatus } = req.body || {};
+  if (orderStatus !== undefined && !ORDER_STATUSES.has(orderStatus)) {
+    return res.status(400).json({ error: 'Некоректний статус замовлення' });
+  }
+  if (paymentStatus !== undefined && !PAYMENT_STATUSES.has(paymentStatus)) {
+    return res.status(400).json({ error: 'Некоректний статус оплати' });
+  }
   const existing = db.prepare('SELECT * FROM orders WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Замовлення не знайдено' });
-  const { orderStatus, paymentStatus } = req.body || {};
   db.prepare('UPDATE orders SET order_status = COALESCE(?, order_status), payment_status = COALESCE(?, payment_status) WHERE id = ?')
     .run(orderStatus || null, paymentStatus || null, req.params.id);
   res.json(serializeOrder(db.prepare('SELECT * FROM orders WHERE id = ?').get(req.params.id)));

@@ -12,6 +12,7 @@ const ordersTableBody   = document.querySelector('#ordersTable tbody');
 const productModal      = document.getElementById('productModal');
 const productForm       = document.getElementById('productForm');
 const productFormError  = document.getElementById('productFormError');
+const adminError        = document.getElementById('adminError');
 const newProductBtn      = document.getElementById('newProductBtn');
 const cancelProductBtn   = document.getElementById('cancelProductBtn');
 
@@ -20,9 +21,17 @@ const STATUS_CLASS  = { in_stock: 'status-pill--in', on_order: 'status-pill--ord
 
 async function api(path, opts) {
   const res = await fetch(path, { credentials: 'same-origin', ...opts });
-  if (res.status === 401) { showLogin(); throw new Error('Unauthorized'); }
+  const body = res.ok || res.status === 204 ? null : await res.json().catch(() => ({}));
+  if (res.status === 401) {
+    if (path !== '/api/admin/login') {
+      closeProductModal();
+      loginError.textContent = 'Сесія завершилася. Увійдіть повторно.';
+      loginError.hidden = false;
+      showLogin();
+    }
+    throw new Error(body.error || 'Потрібна авторизація');
+  }
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
     throw new Error(body.error || `Помилка ${res.status}`);
   }
   if (res.status === 204) return null;
@@ -38,6 +47,11 @@ function showApp() {
   adminApp.hidden = false;
   loadProducts();
   loadOrders();
+}
+
+function showAdminError(error) {
+  adminError.textContent = error instanceof Error ? error.message : String(error);
+  adminError.hidden = false;
 }
 
 /* ---- Auth ---- */
@@ -69,8 +83,12 @@ loginForm.addEventListener('submit', async (e) => {
 });
 
 logoutBtn.addEventListener('click', async () => {
-  await api('/api/admin/logout', { method: 'POST' });
-  showLogin();
+  try {
+    await api('/api/admin/logout', { method: 'POST' });
+    showLogin();
+  } catch (err) {
+    showAdminError(err);
+  }
 });
 
 /* ---- Tabs ---- */
@@ -222,8 +240,12 @@ productForm.addEventListener('submit', async (e) => {
 
 async function deleteProduct(id) {
   if (!confirm('Видалити цей товар?')) return;
-  await api(`/api/admin/products/${id}`, { method: 'DELETE' });
-  loadProducts();
+  try {
+    await api(`/api/admin/products/${id}`, { method: 'DELETE' });
+    loadProducts();
+  } catch (err) {
+    showAdminError(err);
+  }
 }
 
 /* ---- Orders ---- */
@@ -246,7 +268,10 @@ async function loadOrders() {
   }
   orders.forEach((o) => {
     const tr = document.createElement('tr');
-    const paymentAmountNote = o.paymentMethod === 'prepay' ? ` (${o.prepayAmount.toLocaleString('uk-UA')} грн)` : '';
+    const prepayAmount = Number(o.prepayAmount);
+    const paymentAmountNote = o.paymentMethod === 'prepay' && Number.isFinite(prepayAmount)
+      ? ` (${prepayAmount.toLocaleString('uk-UA')} грн)`
+      : '';
     tr.innerHTML = `
       <td>№${o.id}</td>
       <td>${escapeHtml(o.customerName)}</td>
@@ -271,21 +296,43 @@ async function loadOrders() {
   });
 
   ordersTableBody.querySelectorAll('[data-order-status]').forEach((sel) => {
+    sel.dataset.savedValue = sel.value;
     sel.addEventListener('change', async () => {
-      await api(`/api/admin/orders/${sel.dataset.orderStatus}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderStatus: sel.value }),
-      });
+      const selectedValue = sel.value;
+      sel.disabled = true;
+      try {
+        await api(`/api/admin/orders/${sel.dataset.orderStatus}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderStatus: selectedValue }),
+        });
+        sel.dataset.savedValue = selectedValue;
+      } catch (err) {
+        sel.value = sel.dataset.savedValue;
+        showAdminError(err);
+      } finally {
+        sel.disabled = false;
+      }
     });
   });
   ordersTableBody.querySelectorAll('[data-payment-status]').forEach((sel) => {
+    sel.dataset.savedValue = sel.value;
     sel.addEventListener('change', async () => {
-      await api(`/api/admin/orders/${sel.dataset.paymentStatus}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paymentStatus: sel.value }),
-      });
+      const selectedValue = sel.value;
+      sel.disabled = true;
+      try {
+        await api(`/api/admin/orders/${sel.dataset.paymentStatus}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentStatus: selectedValue }),
+        });
+        sel.dataset.savedValue = selectedValue;
+      } catch (err) {
+        sel.value = sel.dataset.savedValue;
+        showAdminError(err);
+      } finally {
+        sel.disabled = false;
+      }
     });
   });
 }
