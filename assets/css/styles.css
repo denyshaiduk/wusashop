@@ -636,6 +636,9 @@ h3 { font-family: Oswald, sans-serif; font-size: 1.1rem; font-weight: 600; }
 }
 .handmade-badge strong { font-family: Oswald, sans-serif; font-size: 2.4rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
 .handmade-badge span { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .1em; }
+.handmade-blog { text-decoration: none; transition: border-color var(--transition), background var(--transition), transform var(--transition); }
+.handmade-blog strong { font-size: 1.7rem; }
+.handmade-blog:hover { border-color: var(--gold); background: linear-gradient(135deg, rgba(200,147,10,.27), rgba(200,147,10,.1)); transform: translateY(-2px); }
 
 /* ---- Advantages ---- */
 .advantages-grid {
